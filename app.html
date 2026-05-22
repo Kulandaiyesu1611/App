@@ -138,7 +138,16 @@
 
     <div id="pronunciation" class="info-value"></div>
 
-</div>
+    </div>
+
+    <div class="info-block">
+
+        <div class="info-label">
+            Status
+        </div>
+
+        <div id="wordStatus" class="info-value"></div>
+    </div>
 
         <p><strong>Definition:</strong>
         <span id="definition"></span></p>
@@ -164,8 +173,16 @@
         </button>
 
         <button class="previous-btn" onclick="restartLesson()">
-    Restart
+        Restart
         </button>   
+
+        <button class="previous-btn" onclick="markMastered()">
+        Mark Mastered
+        </button>
+
+        <button class="next-btn" onclick="markRevision()">
+        Mark Revision
+        </button>
 
         </div>
 
@@ -174,6 +191,7 @@
 </div>
     
     
+    <script src="content.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

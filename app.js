@@ -1,99 +1,4 @@
-let content = [
 
-    {
-
-        contentType: "word",
-        theme: "Work & jobs",
-        listName: "Recruitment & Joining",
-        items: [
-
-            {
-            id: 1,
-            content: "hire",
-            partOfSpeech: "verb",
-            pronunciation: "HIRE",
-            meaning: "To give someone a job.",
-            synonyms: [
-                "employ",
-                "appoint"
-            ],
-
-            antonyms: [
-                "fire",
-                "dismiss"
-            ],
-
-            usage: [
-                "The company plans to hire new staff.",
-                "They hired him as a manager.",
-                "She was hired after the interview."
-            ],
-            image: ""
-    },
-    
- {
-
-            id: 2,
-            content: "recruit",
-            partOfSpeech: "verb",
-            pronunciation: "re-KROOT",
-            meaning: "To find and bring in new people for jobs.",
-            synonyms: [
-                "enlist",
-                "sign up"
-            ],
-
-            antonyms: [
-                "reject",
-                "test"
-            ],
-
-            usage: [
-                "The firm recruits graduates every year.",
-                "They recruited five engineers.",
-                "The army is recruiting soldiers."
-            ],
-            image: ""
-        
-    }
-]
-},
-
-{ 
-
-contentType: "word",
-        theme: "Work & jobs",
-        listName: "Roles & Tasks",
-        items: [
-
-            {
-                id: 3,
-            content: "shortlist",
-            partOfSpeech: "verb",
-            pronunciation: "SHORT-list",
-            meaning: "To make a small list of the best candidates.",
-            synonyms: [
-                "lselect",
-                "choose"
-            ],
-
-            antonyms: [],
-
-            usage: [
-                "She was shortlisted for the job.",
-                "The HR team shortlisted ten people.",
-                "Three names were shortlisted for the prize."
-            ],
-            image: ""
-        
- 
-
-            }
-        ]
-
-}
-
-];
 
 let currentList = 0;
 
@@ -115,6 +20,8 @@ function displayWord() {
 document.getElementById("word").innerHTML = currentItem.content;
 
 document.getElementById("partOfSpeech").innerHTML = currentItem.partOfSpeech;
+
+document.getElementById("wordStatus").innerHTML = currentItem.status;
 
 document.getElementById("pronunciation").innerHTML = currentItem.pronunciation;
 
@@ -417,3 +324,24 @@ function restartLesson() {
     displayWord();
 }
 
+function markMastered() {
+
+    content[currentList].items[currentWord].status =
+    "mastered";
+
+    console.log(
+
+        content[currentList].items[currentWord]
+    );
+}
+
+function markRevision() {
+
+    content[currentList].items[currentWord].status =
+    "revision";
+
+    console.log(
+
+        content[currentList].items[currentWord]
+    );
+}
