@@ -60,19 +60,34 @@
             Learn
         </button>
 
-        <button class="nav-button">
+        <button class="nav-button" onclick="openThemePage('Assessment')">
             Assessment
         </button>
 
-        <button class="nav-button">
+        <button class="nav-button"
+onclick="openStatisticsPage()">
+
+    Statistics
+
+</button>
+
+        <button class="nav-button" onclick="openThemePage('Mastered')">
             Mastered
         </button>   
 
-        <button class="nav-button">
+        <button class="nav-button" onclick="openThemePage('Revision')">
             Revision
         </button>
 
+        <button class="nav-button" onclick="openThemePage('MyWordBank')">
+
+        MyWordBank
+
+        </button>
+
     </div>
+
+    
 
 </div>
 
@@ -105,15 +120,21 @@
 
 </div>
 
-    <div class="card" id="learnPage">
+    <div id="learnPage">
 
         <button class="back-button" onclick="goToListPage()">
             Home
         </button>
 
         <div class="page-title" id="learnTitle"></div>
+        
+        <div id="learnCompletionMessage"></div>
 
-         <div class="card-content">
+         <div class="content">
+
+        <div class="card">
+
+            <div class="card-content"> 
 
     <h1 id="word"></h1>
         
@@ -165,24 +186,129 @@
         <div class="buttons">
 
         <button class="previous-btn" onclick="previousWord()">
-            Previous Word
+            Previous
         </button>
 
         <button class="next-btn" onclick="nextWord()">
-            Next Word
+            Next
         </button>
 
         <button class="previous-btn" onclick="restartLesson()">
         Restart
         </button>   
 
-        <button class="previous-btn" onclick="markMastered()">
-        Mark Mastered
+        <button class="next-btn" id="wordBankButton" onclick="toggleWordBank()">
+
+    MyWordBank
+
+</button>
+
+        </div>
+
+        </div>
+
+        </div>
+
+    </div>
+
+ </div>
+
+    <div id="assessmentPage">
+
+        <button class="back-button" onclick="goToListPage()">
+             ← Back
         </button>
 
-        <button class="next-btn" onclick="markRevision()">
-        Mark Revision
-        </button>
+        <div class="page-title" id="assessmentTitle">
+
+        </div>
+        <div id="assessmentCompletionMessage"></div>
+
+        <div class="content">
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h2 id="questionWord"></h2>
+
+                    <div id="optionsContainer"></div>
+
+                    <div class="assessment-buttons">
+
+    <button class="previous-btn"
+    onclick="previousAssessmentQuestion()">
+
+        Previous
+
+    </button>
+
+    <button class="next-btn"
+    onclick="nextAssessmentQuestion()">
+
+        Next
+
+    </button>
+
+</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+</div>
+
+<div id="statisticsPage">
+
+    <button class="back-button"
+    onclick="goToModePage()">
+
+        Home
+    </button>
+
+    <div class="page-title">
+
+        Statistics
+
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+
+            <div class="card-content">
+
+                <p>
+
+                    Total Words:
+                    <span id="totalWords"></span>
+
+                </p>
+
+                <p>
+
+                    Mastered Words:
+                    <span id="masteredWords"></span>
+
+                </p>
+
+                <p>
+
+                    Revision Words:
+                    <span id="revisionWords"></span>
+
+                </p>
+
+                <p>
+
+                    MyWordBank:
+                    <span id="savedWords"></span>
+
+                </p>
+
+            </div>
 
         </div>
 

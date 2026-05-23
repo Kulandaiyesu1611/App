@@ -12,10 +12,15 @@ let selectedTheme = "";
 
 let selectedList = "";
 
+let answered = false;
+
+let filteredItems = [];
+
 
 function displayWord() {
     let currentItem =   
-    content[currentList].items[currentWord];
+    filteredItems[currentWord];
+
 
 document.getElementById("word").innerHTML = currentItem.content;
 
@@ -51,7 +56,7 @@ document.querySelector(".progress-text").innerHTML =
 
 " / " +
 
-content[currentList].items.length +
+filteredItems.length +
 
 " words";
 
@@ -59,10 +64,24 @@ let progressPercent =
 
 ((currentWord + 1) /
 
-content[currentList].items.length) * 100;
+filteredItems.length) * 100;
 
 document.querySelector(".progress-fill").style.width =
 progressPercent + "%";
+
+if (currentItem.saved == true) {
+
+    document.getElementById("wordBankButton").innerHTML =
+
+    "Remove";
+}
+
+else {
+
+    document.getElementById("wordBankButton").innerHTML =
+
+    "MyWordBank";
+}
 
 }
 
@@ -80,8 +99,77 @@ function openLearnPage(listName) {
 
     currentWord = 0;
 
-    displayWord();
+    if (document.getElementById("learnCard")) {
 
+    document.getElementById("learnCard").style.display =
+    "block";
+}
+
+if (document.getElementById("assessmentCard")) {
+
+    document.getElementById("assessmentCard").style.display =
+    "block";
+}
+
+if (document.getElementById("learnCompletionMessage")) {
+
+    document.getElementById("learnCompletionMessage").innerHTML =
+    "";
+}
+
+if (document.getElementById("assessmentCompletionMessage")) {
+
+    document.getElementById("assessmentCompletionMessage").innerHTML =
+    "";
+}
+
+    if (selectedMode == "Mastered") {
+
+        filteredItems =
+
+        content[currentList].items.filter(item =>
+            
+            item.status == "mastered"
+        );
+    } 
+
+    else if (selectedMode == "Revision") {
+
+        filteredItems =
+
+        content[currentList].items.filter(item =>
+
+            item.status == "revision"
+        );
+    } 
+
+    else if (selectedMode == "MyWordBank") {
+
+    filteredItems =
+
+    content[currentList].items.filter(item =>
+
+        item.saved == true
+    );
+}
+
+    else if (selectedMode == "Assessment") {
+
+    filteredItems =
+
+    content[currentList].items.filter(item =>
+
+        item.status != "mastered"
+    );
+}
+
+else {
+
+    filteredItems =
+
+    content[currentList].items;
+}
+    
     document.getElementById("learnTitle").innerHTML =
 
     selectedContentType + " → " + 
@@ -99,13 +187,69 @@ function openLearnPage(listName) {
     document.getElementById("listPage").style.display =
     "none";
 
+    document.getElementById("modePage").style.display =
+   "none";
+
+    document.getElementById("learnPage").style.display =
+    "none";
+
+    document.getElementById("assessmentPage").style.display =
+    "none";
+
+
+     if (
+
+    selectedMode == "Learn"
+
+    ||
+
+    selectedMode == "Mastered"
+
+    ||
+
+    selectedMode == "Revision"
+
+    ||
+
+    selectedMode == "MyWordBank"
+
+) {
+
     document.getElementById("learnPage").style.display =
     "block";
-
 }
 
-displayWord()
+else if (selectedMode == "Assessment") {
 
+    document.getElementById("assessmentPage").style.display =
+    "block";
+}
+
+         if (
+
+    selectedMode == "Learn"
+
+    ||
+
+    selectedMode == "Mastered"
+
+    ||
+
+    selectedMode == "Revision"
+
+    ||
+
+    selectedMode == "MyWordBank"
+
+) {
+
+    displayWord();
+}
+        else if (selectedMode == "Assessment") {
+
+            displayAssessmentQuestion();
+        }
+}   
 
 function openModePage(contentType) {
 
@@ -119,6 +263,73 @@ function openModePage(contentType) {
 
 }
 
+function openStatisticsPage() {
+
+    document.getElementById("modePage").style.display =
+    "none";
+    document.getElementById("statisticsPage").style.display =
+    "block";
+
+    let total = 0;
+
+    let mastered = 0;
+
+    let revision = 0;
+
+    let saved = 0;
+
+    for (
+
+        i = 0;
+
+        i < content.length;
+
+        i++
+    ) {
+
+        total += content[i].items.length;
+
+        for (
+
+            let j = 0;
+
+            j < content[i].items.length;
+
+            j++
+        ) {
+
+            let item = content[i].items[j];
+
+            if (item.status == "mastered") {
+
+                mastered++;
+            }
+
+            if (item.status == "revision") {
+
+                revision++;
+            }
+
+            if (item.saved == true) {
+
+                saved++;
+            }
+        }
+    }
+
+    document.getElementById("totalWords").innerHTML =
+    total;
+
+    document.getElementById("masteredWords").innerHTML =
+    mastered;
+
+    document.getElementById("revisionWords").innerHTML =
+    revision;
+
+    document.getElementById("savedWords").innerHTML =
+    saved;
+}
+
 function goHome() {
 
     document.getElementById("modePage").style.display = 
@@ -129,6 +340,8 @@ function goHome() {
     "none";
     document.getElementById("learnPage").style.display =
     "none";
+    document.getElementById("statisticsPage").style.display =
+    "none";
     document.getElementById("homePage").style.display =
     "block";
 }
@@ -136,6 +349,9 @@ function goHome() {
 function goToModePage(){
 
     document.getElementById("themePage").style.display =
+    "none";
+
+    document.getElementById("statisticsPage").style.display =
     "none";
 
     document.getElementById("modePage").style.display =
@@ -147,6 +363,9 @@ function goToThemePage() {
     document.getElementById("listPage").style.display = 
     "none";
 
+    document.getElementById("statisticsPage").style.display =
+    "none";
+
     document.getElementById("themePage").style.display =
     "block";
 }
@@ -154,6 +373,12 @@ function goToThemePage() {
 function goToListPage() {
 
     document.getElementById("learnPage").style.display =
+    "none";
+
+    document.getElementById("assessmentPage").style.display =
+    "none";
+
+    document.getElementById("statisticsPage").style.display =
     "none";
 
     document.getElementById("listPage").style.display =
@@ -164,14 +389,34 @@ function openThemePage(mode) {
 
     selectedMode = mode;
 
+    displayThemes();
+
     document.getElementById("themeTitle").innerHTML =
 
     selectedContentType + " → " + selectedMode;
 
+    document.getElementById("homePage").style.display =
+    "none";
+
     document.getElementById("modePage").style.display =
     "none";
 
-    document.getElementById("themePage").style.display = 
+    document.getElementById("themePage").style.display =
+    "none";
+
+    document.getElementById("listPage").style.display =
+    "none";
+
+    document.getElementById("learnPage").style.display =
+    "none";
+
+    document.getElementById("assessmentPage").style.display =
+    "none";
+
+    document.getElementById("statisticsPage").style.display =
+    "none";
+
+    document.getElementById("themePage").style.display =
     "block";
 
 }
@@ -181,16 +426,82 @@ function displayThemes() {
     let themeContainer = 
 
     document.getElementById("themeContainer");
+
     themeContainer.innerHTML = "";
+
     let themes = [];
-    for (let i = 0; i <content.length; i++) {
 
-        let currentTheme = content[i].theme;
-         if (themes.includes(currentTheme) == false) {
+    for (let i = 0; i < content.length; i++) {
 
-            themes.push(currentTheme);
-         }
+        if (
+
+            selectedMode == "Learn"
+
+            ||
+
+            (
+
+                selectedMode == "Assessment" &&
+
+                content[i].learned == true &&
+
+                content[i].items.some(item =>
+
+                    item.status != "mastered"
+                )
+            )
+
+            ||
+
+            (
+
+                selectedMode == "Mastered" &&
+
+                content[i].items.some(item =>
+
+                    item.status == "mastered"
+                )
+            )
+
+            ||
+
+            (
+
+                selectedMode == "Revision" &&
+
+                content[i].items.some(item =>
+
+                    item.status == "revision"
+                )
+            )
+
+            ||
+
+            (
+
+                selectedMode == "MyWordBank" &&
+
+                content[i].items.some(item =>
+
+                    item.saved == true
+                )
+            )
+
+        ) {
+
+            let currentTheme = content[i].theme;
+
+            if (
+
+                themes.includes(currentTheme) == false
+
+            ) {
+
+                themes.push(currentTheme);
+            }
+        }
     }
+
     console.log(themes);
 
     for (let i = 0; i < themes.length; i++) {
@@ -210,11 +521,10 @@ function displayThemes() {
         '</button>';
 
         themeContainer.innerHTML += buttonHTML;
-
     }
 }
 
-displayThemes()
+
 
 function openListPage(theme) {
 
@@ -233,8 +543,17 @@ function openListPage(theme) {
 
     document.getElementById("themePage").style.display =
     "none";
-    
-    document.getElementById("listPage").style.display = 
+
+    document.getElementById("learnPage").style.display =
+    "none";
+
+    document.getElementById("assessmentPage").style.display =
+    "none";
+
+    document.getElementById("statisticsPage").style.display =
+    "none";
+
+    document.getElementById("listPage").style.display =
     "block";
 }
 
@@ -251,7 +570,63 @@ function displayLists() {
 
     for (let i = 0; i < content.length; i++) {
 
-        if (content[i].theme == selectedTheme) {
+        if 
+        (
+            content[i].theme == selectedTheme &&
+
+            (
+                selectedMode == "Learn"
+
+                ||
+
+                (
+    selectedMode == "Assessment" &&
+
+    content[i].learned == true &&
+
+    content[i].items.some(item =>
+
+        item.status != "mastered"
+    )
+)
+
+                ||
+
+                (
+
+                    selectedMode == "Mastered" &&
+
+                    content[i].items.some(item=>
+                    
+                        item.status == "mastered"
+                    )
+                )
+
+                || 
+
+                (
+
+                    selectedMode == "Revision" && 
+
+                    content[i].items.some(item =>
+
+                        item.status == "revision"
+                    )
+                )
+
+                ||
+                (
+                selectedMode == "MyWordBank" &&
+
+                content[i].items.some(item =>
+
+                    item.saved == true
+
+                )
+                
+                )
+            )
+        ) {
 
             let currentList = content[i].listName;
 
@@ -292,15 +667,98 @@ function displayLists() {
 function nextWord() {
 
     if (
+
         currentWord <
-        content[currentList].items.length - 1
+
+        filteredItems.length - 1
+
     ) {
 
         currentWord++;
 
         displayWord();
-    } else {
-        alert("Lesson Complete!");
+    }
+
+    else {
+
+        if (selectedMode == "Learn") {
+
+            for (
+
+                let i = 0;
+
+                i < content.length;
+
+                i++
+
+            ) {
+
+                if (
+
+                    content[i].listName == selectedList
+
+                    &&
+
+                    content[i].theme == selectedTheme
+
+                ) {
+
+                    content[i].learned = true;
+                }
+            }
+
+            saveProgress();
+
+            document.getElementById("learnCard").style.display =
+            "none";
+
+            document.getElementById("learnCompletionMessage").innerHTML =
+            
+
+            '<h2>Lesson Complete!</h2>' +
+
+            '<button class="nav-button" onclick="goToListPage()">' +
+
+            'Back to Lists' +
+
+            '</button>';
+
+            return;
+        }
+
+        else if (selectedMode == "Revision") {
+
+            for (
+
+                let i = 0;
+
+                i < filteredItems.length;
+
+                i++
+
+            ) {
+
+                filteredItems[i].status = "review";
+            }
+
+            saveProgress();
+
+            document.getElementById("learnCard").style.display =
+            "none";
+
+            document.getElementById("learnCompletionMessage").innerHTML =
+
+
+            '<h2>Revision Complete!</h2>' +
+
+            '<button class="nav-button" onclick="goToListPage()">' +
+
+            'Back to Lists' +
+
+            '</button>';
+
+            return;
+        }
     }
 }
 
@@ -324,24 +782,201 @@ function restartLesson() {
     displayWord();
 }
 
+
+
+function displayAssessmentQuestion() {
+
+    let currentItem =
+
+    filteredItems[currentWord];
+
+    answered = false;
+
+    document.getElementById("questionWord").innerHTML =
+
+    currentItem.question;
+
+    let optionsHTML = "";
+
+    for (let i = 0; i < currentItem.options.length; i++) {
+
+        optionsHTML +=
+
+        '<button class="assessment-option" onclick="checkAnswer(this, \'' +
+
+        currentItem.options[i] +
+
+        '\')">' +
+
+        currentItem.options[i] +
+
+        '</button>';
+    }
+
+    document.getElementById("optionsContainer").innerHTML =
+
+    optionsHTML;
+}
+
+
 function markMastered() {
 
-    content[currentList].items[currentWord].status =
+    filteredItems[currentWord].status =
     "mastered";
 
     console.log(
 
-        content[currentList].items[currentWord]
+        filteredItems[currentWord]
     );
 }
 
 function markRevision() {
 
-    content[currentList].items[currentWord].status =
+    filteredItems[currentWord].status =
     "revision";
 
     console.log(
 
-        content[currentList].items[currentWord]
+        filteredItems[currentWord]
     );
+}
+
+function checkAnswer(button, selectedOption) {
+
+    let allOptions =
+
+    document.querySelectorAll(".assessment-option");
+
+    for (let i = 0; i < allOptions.length; i++) {
+
+        allOptions[i].classList.remove("selected-answer");
+    }
+
+    button.classList.add("selected-answer");
+
+    let currentItem = 
+
+    filteredItems[currentWord];
+
+    if (
+
+        selectedOption.trim() ==
+
+        currentItem.correctAnswer.trim()
+
+    ) {
+
+        currentItem.status = "mastered";
+    }
+
+    else {
+
+        currentItem.status = "revision";
+    }
+
+    answered = true;
+
+    if (
+
+        currentWord ==
+
+        filteredItems.length -1
+    ) {
+        setTimeout(function() {
+
+            alert("Assessment Submitted!");
+        }, 300);
+    }
+
+    saveProgress();
+
+    console.log(currentItem);
+}
+
+
+function nextAssessmentQuestion() {
+
+    if (answered == false) {
+
+    alert("Please select an answer.");
+
+    return;
+}
+
+    if (
+
+        currentWord <
+
+        filteredItems.length -1
+    ) {
+
+        currentWord++;
+
+        displayAssessmentQuestion();
+    }
+
+    else {
+
+    document.getElementById("questionWord").innerHTML =
+
+    "Assessment Complete!";
+
+    document.getElementById("optionsContainer").innerHTML =
+
+    '<button class="nav-button" onclick="goToListPage()">' +
+
+    'Back to Lists' +
+
+    '</button>';
+}
+}
+
+function previousAssessmentQuestion() {
+
+    if (currentWord > 0) {
+
+        currentWord--;
+
+        displayAssessmentQuestion();
+    }
+}
+
+function saveProgress() {
+
+    localStorage.setItem(
+
+        "vocabularyApp",
+
+        JSON.stringify(content)
+    );
+}
+
+function loadProgress() {
+
+    let savedData = 
+
+    localStorage.getItem("vocabularyApp");
+
+    if (savedData) {
+
+        content = JSON.parse(savedData);
+    }
+}
+
+loadProgress();
+
+
+function toggleWordBank() {
+
+    let currentItem =
+
+    filteredItems[currentWord];
+
+    currentItem.saved = 
+
+    !currentItem.saved;
+
+    saveProgress();
+
+    displayWord();
 }
