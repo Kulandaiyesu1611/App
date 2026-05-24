@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>word-app</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+    <div class="phone">
+
+        <div class="top-bar"> 
+
+            <div class="top-title">Learning App</div>
+            <div class="top-subtitle">Build your word power daily</div>
+
+            <div class="progress-text"></div>
+
+            <div class="progress-bar">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+        </div>
+
+        <div class="home-page" id="homePage"> 
+
+        <div class="content">
+
+            <button class="nav-button" onclick="openModePage('Vocabulary')">
+                Vocabulary
+            </button>
+
+            <button class="nav-button">
+                Idioms
+            </button>
+
+            <button class="nav-button">
+                Verbal Phrases
+            </button>
+
+            <button class="nav-button">
+                Grammar
+            </button>
+
+            </div>
+            </div>
+
+    <div class="mode-page" id="modePage">
+
+    <div class="content">
+
+        <button class="back-button" onclick="goHome()">
+            Home
+        </button>
+
+        <button class="nav-button" onclick="openThemePage('Learn')">
+            Learn
+        </button>
+
+        <button class="nav-button" onclick="openThemePage('Assessment')">
+            Assessment
+        </button>
+
+        <button class="nav-button"
+onclick="openStatisticsPage()">
+
+    Statistics
+
+</button>
+
+        <button class="nav-button" onclick="openThemePage('Mastered')">
+            Mastered
+        </button>   
+
+        <button class="nav-button" onclick="openThemePage('Revision')">
+            Revision
+        </button>
+
+        <button class="nav-button" onclick="openThemePage('MyWordBank')">
+
+        MyWordBank
+
+        </button>
+
+    </div>
+
+    
+
+</div>
+
+<div class="theme-page" id="themePage"> 
+
+    <button class="back-button" onclick="goToModePage()">
+        Home
+    </button>
+
+    <div class="page-title" id="themeTitle"></div>
+
+    <div class="content" id="themeContainer">
+
+</div>
+
+</div>
+
+<div class="list-page" id="listPage">
+
+    <button class="back-button" onclick="goToThemePage()">
+        Home
+    </button>
+
+    <div class="page-title" id="listTitle"></div>
+
+    <div class="content" id="listContainer">
+
+
+    </div>
+
+</div>
+
+    <div id="learnPage">
+
+        <button class="back-button" onclick="goToListPage()">
+            Home
+        </button>
+
+        <div class="page-title" id="learnTitle"></div>
+        
+        <div id="learnCompletionMessage"></div>
+
+         <div class="content">
+
+        <div class="card">
+
+            <div class="card-content"> 
+
+    <h1 id="word"></h1>
+        
+    <img id="image">
+
+        
+        <div class="info-block">
+
+    <div class="info-label">
+        Part of Speech
+    </div>
+
+    <div id="partOfSpeech" class="info-value"></div>
+
+</div>
+
+        <div class="info-block">
+
+    <div class="info-label">
+        Pronunciation
+    </div>
+
+    <div id="pronunciation" class="info-value"></div>
+
+    </div>
+
+    <div class="info-block">
+
+        <div class="info-label">
+            Status
+        </div>
+
+        <div id="wordStatus" class="info-value"></div>
+    </div>
+
+        <p><strong>Definition:</strong>
+        <span id="definition"></span></p>
+
+        <p><strong>Synonyms:</strong>
+        <span id="relatedWords"></span></p>
+
+        <p><strong>Antonyms:</strong>
+        <span id="oppositeWords"></span></p>
+
+        <p><strong>Usage:</strong></p>
+
+        <div id="usage"></div>
+
+        <div class="buttons">
+
+        <button class="previous-btn" onclick="previousWord()">
+            Previous
+        </button>
+
+        <button class="next-btn" onclick="nextWord()">
+            Next
+        </button>
+
+        <button class="previous-btn" onclick="restartLesson()">
+        Restart
+        </button>   
+
+        <button class="next-btn" id="wordBankButton" onclick="toggleWordBank()">
+
+    MyWordBank
+
+</button>
+
+        </div>
+
+        </div>
+
+        </div>
+
+    </div>
+
+ </div>
+
+    <div id="assessmentPage">
+
+        <button class="back-button" onclick="goToListPage()">
+             ← Back
+        </button>
+
+        <div class="page-title" id="assessmentTitle">
+
+        </div>
+        <div id="assessmentCompletionMessage"></div>
+
+        <div class="content">
+
+            <div class="card">
+
+                <div class="card-content">
+
+                    <h2 id="questionWord"></h2>
+
+                    <div id="optionsContainer"></div>
+
+                    <div class="assessment-buttons">
+
+    <button class="previous-btn"
+    onclick="previousAssessmentQuestion()">
+
+        Previous
+
+    </button>
+
+    <button class="next-btn"
+    onclick="nextAssessmentQuestion()">
+
+        Next
+
+    </button>
+
+</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+</div>
+
+<div id="statisticsPage">
+
+    <button class="back-button"
+    onclick="goToModePage()">
+
+        Home
+    </button>
+
+    <div class="page-title">
+
+        Statistics
+
+    </div>
+
+    <div class="content">
+
+        <div class="card">
+
+            <div class="card-content">
+
+                <p>
+
+                    Total Words:
+                    <span id="totalWords"></span>
+
+                </p>
+
+                <p>
+
+                    Mastered Words:
+                    <span id="masteredWords"></span>
+
+                </p>
+
+                <p>
+
+                    Revision Words:
+                    <span id="revisionWords"></span>
+
+                </p>
+
+                <p>
+
+                    MyWordBank:
+                    <span id="savedWords"></span>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+    
+    
+    <script src="content.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
