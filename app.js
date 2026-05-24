@@ -1,5 +1,3 @@
-
-
 let currentList = 0;
 
 let currentWord  = 0;
@@ -69,6 +67,37 @@ filteredItems.length) * 100;
 document.querySelector(".progress-fill").style.width =
 progressPercent + "%";
 
+if (
+
+    currentWord == filteredItems.length - 1
+
+) {
+
+    document.querySelector(".next-btn").innerHTML =
+
+    "Finish";
+} 
+
+else {
+
+    document.querySelector(".next-btn").innerHTML = 
+
+    "Next";
+} 
+
+if (currentWord == 0) {
+
+    document.querySelector(".previous-btn").style.display =
+
+    "none";
+}
+
+else {
+
+    document.querySelector(".previous-btn").style.display =
+
+    "inline-block";
+}
 if (currentItem.saved == true) {
 
     document.getElementById("wordBankButton").innerHTML =
@@ -709,21 +738,7 @@ function nextWord() {
 
             saveProgress();
 
-            document.getElementById("learnCard").style.display =
-            "none";
-
-            document.getElementById("learnCompletionMessage").innerHTML =
-            
-
-            '<h2>Lesson Complete!</h2>' +
-
-            '<button class="nav-button" onclick="goToListPage()">' +
-
-            'Back to Lists' +
-
-            '</button>';
-
-            return;
+            goToListPage();
         }
 
         else if (selectedMode == "Revision") {
@@ -740,24 +755,9 @@ function nextWord() {
 
                 filteredItems[i].status = "review";
             }
+saveProgress();
 
-            saveProgress();
-
-            document.getElementById("learnCard").style.display =
-            "none";
-
-            document.getElementById("learnCompletionMessage").innerHTML =
-
-
-            '<h2>Revision Complete!</h2>' +
-
-            '<button class="nav-button" onclick="goToListPage()">' +
-
-            'Back to Lists' +
-
-            '</button>';
-
-            return;
+goToListPage();
         }
     }
 }
@@ -979,4 +979,13 @@ function toggleWordBank() {
     saveProgress();
 
     displayWord();
+}
+
+function openHomePage() {
+
+    document.getElementById("loginPage").style.display =
+    "none";
+
+    document.getElementById("homePage").style.display =
+    "block";
 }
