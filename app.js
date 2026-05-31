@@ -983,8 +983,6 @@ function toggleWordBank() {
 
 function openHomePage() {
 
-    document.getElementById("loginPage").style.display =
-    "none";
 
     document.getElementById("homePage").style.display =
     "block";
